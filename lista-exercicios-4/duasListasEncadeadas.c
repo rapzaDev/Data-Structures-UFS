@@ -33,9 +33,12 @@ void insertB(int32_t N,Estrutura *b) {
  * this function search if any cell of list B is equal of another cell in A list.
 **/
 int32_t searchEstructureA(Estrutura *a, Estrutura *b, Estrutura *auxB) {
-    if(!a) return 0;
-    if(!b && !a) return 0;
-    if(!b) b = auxB;
+    if(!a->prox) return 0;
+    if(!b->prox && !a->prox) return 0;
+    if(!b->prox){
+        b = auxB;
+        a=a->prox;
+    }
     if(b->num == a->num) return 1;
     else searchEstructureA(a, b->prox, auxB);   
 }
@@ -52,13 +55,16 @@ int32_t searchEstructureB(Estrutura *b, Estrutura *a, Estrutura *auxA) {
 }
 
 void isIncluded(Estrutura *a, Estrutura *b){
-    int32_t sizeA = sizeList(a, 0);
-    int32_t sizeB = sizeList(b, 0);
+    int32_t sizeA = sizeList(a->prox, 0);
+    int32_t sizeB = sizeList(b->prox, 0);
 
     if(sizeA>sizeB){
         int32_t check = 0;
-        check = searchEstructureA(a,b,b);
+        check = searchEstructureA(a->prox,b->prox,b->prox);
         if(check){
+            printf("%d\n", check);
+            return;
+        }else{
             printf("%d\n", check);
             return;
         }
@@ -66,6 +72,9 @@ void isIncluded(Estrutura *a, Estrutura *b){
         int32_t check = 0;
         check = searchEstructureB(b,a,a);
         if(check){
+            printf("%d\n", check);
+            return;
+        }else{
             printf("%d\n", check);
             return;
         }
