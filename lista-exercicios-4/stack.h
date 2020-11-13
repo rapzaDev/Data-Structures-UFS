@@ -11,9 +11,10 @@ typedef struct Pilha {
 }Stack;
 
 /**
- * Creates the stack Head cell and returns it.
+ * Creates the head stack cell and returns it.
 **/
-Stack * createStack(Stack *pHead) {
+Stack * createStack() {
+    Stack *pHead;
     pHead =(Stack*) malloc(sizeof(Stack));
         pHead->value=0;
         pHead->prox=NULL;
@@ -38,7 +39,6 @@ void stackPush(int32_t value, Stack *pHead) {
 int32_t stackPull(Stack *pHead) {
     int32_t value=0;
     Stack *markedStackCell;
-    markedStackCell = (Stack*)malloc(sizeof(Stack));
         markedStackCell = pHead->prox;
         value = markedStackCell->value;
     pHead->prox=markedStackCell->prox;
@@ -52,9 +52,13 @@ int32_t stackPull(Stack *pHead) {
 **/
 void stackPrint(Stack *pHeadProx) {
     if(!pHeadProx) return;
-    if(pHeadProx->prox == NULL){
-        printf("%d\n", pHeadProx->value);    
-    }
-    printf("%d ", pHeadProx->value);
+    if(pHeadProx->prox == NULL) printf("%d\n", pHeadProx->value);    
+    else printf("%d ", pHeadProx->value);
     stackPrint(pHeadProx->prox);
+}
+
+void freeAll(Stack * pHead){
+    if(!pHead) return;
+    freeAll(pHead->prox);
+    return free(pHead);
 }
