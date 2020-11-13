@@ -43,17 +43,6 @@ int32_t searchEstructureA(Estrutura *a, Estrutura *b, Estrutura *auxB) {
     else searchEstructureA(a, b->prox, auxB);   
 }
 
-/**
- * this function search if any cell of list A is equal of another cell in B list.
-**/
-int32_t searchEstructureB(Estrutura *b, Estrutura *a, Estrutura *auxA) {
-    if(!b) return 0;
-    if(!a && !b) return 0;
-    if(!a) a = auxA;
-    if(a->num == b->num) return 1;
-    else searchEstructureB(b, a->prox, auxA);   
-}
-
 void isIncluded(Estrutura *a, Estrutura *b){
     int32_t sizeA = sizeList(a->prox, 0);
     int32_t sizeB = sizeList(b->prox, 0);
@@ -70,14 +59,8 @@ void isIncluded(Estrutura *a, Estrutura *b){
         }
     }else{
         int32_t check = 0;
-        check = searchEstructureB(b,a,a);
-        if(check){
-            printf("%d\n", check);
-            return;
-        }else{
-            printf("%d\n", check);
-            return;
-        }
+        printf("%d\n", check);
+        return;
     }
 }
 
