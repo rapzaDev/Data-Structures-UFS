@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<string.h>
 #include<stdint.h>
-#include"stack.h"
+#include"../modules/stack.h"
 
 void solutionP() {
     Stack *pHead;

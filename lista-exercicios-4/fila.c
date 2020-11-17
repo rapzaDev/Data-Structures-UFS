@@ -1,8 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdint.h>
-#include"fila.h"
-#include"stack.h"
+#include"../modules/fila.h"
+#include"../modules/stack.h"
 
 
 
