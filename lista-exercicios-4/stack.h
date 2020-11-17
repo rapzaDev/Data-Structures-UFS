@@ -57,8 +57,3 @@ void stackPrint(Stack *pHeadProx) {
     stackPrint(pHeadProx->prox);
 }
 
-void freeAll(Stack * pHead){
-    if(!pHead) return;
-    freeAll(pHead->prox);
-    return free(pHead);
-}
