@@ -3,8 +3,6 @@
 #include<stdint.h>
 #include"list.h"
 
-
-
 int main(int argc, char const *argv[])
 {
     Estrutura * lista1 = createList();
