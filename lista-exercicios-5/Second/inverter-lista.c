@@ -56,10 +56,6 @@ int main(int argc, char const *argv[])
 
     invertionList(list, size);
 
-    for(int32_t i=0; i < size; i++){
-        removeEstructure(list);
-    }
-
     free(list);
     return 0;
 }
