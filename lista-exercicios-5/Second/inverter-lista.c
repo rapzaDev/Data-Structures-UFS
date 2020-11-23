@@ -28,16 +28,13 @@ void invertionList(Estrutura * list, int32_t size) {
     }
 }
 
-void adicionar(int32_t value, Estrutura * lista) {
-    if(lista->prox) return adicionar(value, lista->prox);
-    else{
-        Estrutura * nova;
-        nova = (Estrutura *) malloc(sizeof(Estrutura));
+Estrutura * adicionar(int32_t value, Estrutura * list) {
+    Estrutura * nova;
+    nova = (Estrutura *) malloc(sizeof(Estrutura));
         nova->num = value;
-        nova->prox = lista->prox;
-        lista->prox = nova;
-        return;
-    }
+        nova->prox = list->prox;
+    list->prox = nova;
+    return nova;
 }
 
 int main(int argc, char const *argv[])
@@ -48,10 +45,11 @@ int main(int argc, char const *argv[])
     int32_t value;
     int32_t size = 0;
 
-    char check;
+    Estrutura * auxiliar = list;
+    char check; 
     while(check != '\n'){
         scanf("%d", &value);
-        adicionar(value, list);
+        auxiliar = adicionar(value, auxiliar);
         ++size;
         check = getchar();
     }
