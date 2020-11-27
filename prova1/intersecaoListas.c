@@ -70,13 +70,20 @@ Estrutura * compare(Estrutura * lista1, Estrutura * lista2) {
 
 
     Estrutura * auxiliar;
+    Estrutura * check3;
     int32_t value = 0;
     while(proximo1){
         value = proximo1->num;
         auxiliar = search(value, lista2);
-        if(auxiliar){
-            addEstructure(auxiliar->num, lista3);
+
+        check3 = search(value, lista3->prox);
+
+        if(!check3){
+            if(auxiliar){
+                addEstructure(auxiliar->num, lista3);
+            }
         }
+
         proximo1 = proximo1->prox;
     }
 
@@ -106,8 +113,10 @@ void resultante(Estrutura * lista1, Estrutura * lista2) {
     int32_t value = 0;
     while(lista3->prox){
         value = pegaMenor(lista3->prox);
-        marked = search(value, lista3);
-        remover(marked, lista3);
+        marked = search(value, lista3->prox);
+
+        if(marked) remover(marked, lista3);
+        
         auxiliar = adicionar(value, auxiliar);
     }
 

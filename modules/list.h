@@ -47,7 +47,7 @@ Estrutura * search(int32_t value, Estrutura *le){
 int32_t removeEstructure(Estrutura *le) {
     Estrutura *markedCell; 
     markedCell = le->prox;
-    int32_t value = le->prox->num;
+    int32_t value = markedCell->num;
     le->prox = markedCell->prox;
     free(markedCell);
     return value;
