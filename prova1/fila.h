@@ -22,6 +22,9 @@ Fila * createFila() {
 Fila * addFila(int32_t value, Fila * pHead) {
     Fila * newCell;
     newCell = (Fila *)malloc(sizeof(Fila));
+        newCell->prox = NULL;
+        newCell->value = 0;
+        
     newCell->prox = pHead->prox;
     pHead->prox = newCell;
     pHead->value = value;
@@ -48,5 +51,15 @@ void printFila(Fila * pHead) {
 int32_t checkFila(Fila * pHead) {
     if(pHead->prox->value == pHead->value) return 0;
     else return 1;
+}
+
+void removeAllFila(Fila * fila){
+    if(fila->prox == fila) return;
+    Fila * proximo = fila->prox;
+    while(proximo != fila){
+        fila->prox = proximo->prox;
+        free(proximo);
+        proximo = fila->prox;
+    }
 }
 

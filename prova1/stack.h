@@ -57,3 +57,16 @@ void stackPrint(Stack *pHeadProx) {
     stackPrint(pHeadProx->prox);
 }
 
+void removeAllStack(Stack * stack) {
+    if(!stack->prox) return;
+    Stack * proximo = stack->prox;
+
+    while (proximo)
+    {
+        stack->prox = proximo->prox;
+        free(proximo);
+        proximo = stack->prox;
+    }
+    
+}
+
