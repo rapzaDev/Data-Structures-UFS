@@ -8,7 +8,7 @@
             "name": "(gdb) Iniciar",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/lista-exercicios-5/Second/a.out",
+            "program": "${workspaceFolder}/prova1/a.out",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
