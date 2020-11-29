@@ -26,8 +26,8 @@ Stack * createStack() {
    The second parameter always be the stack head's pointer.
 **/
 void stackPush(int32_t value, Stack *pHead) { 
-    Stack *newStackCell;
-    newStackCell = (Stack*)malloc(sizeof(Stack));
+    Stack *newStackCell = NULL;
+    newStackCell = (Stack *) malloc(sizeof(Stack));
         newStackCell->value=value;
         newStackCell->prox=pHead->prox;
     pHead->prox=newStackCell;
