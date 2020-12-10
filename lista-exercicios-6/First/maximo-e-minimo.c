@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdint.h>
-#include"binarySearch.h"
+#include"..//binarySearch.h"
 
 int32_t * generateArray(int32_t value) {
     int32_t * dinamicArray;
