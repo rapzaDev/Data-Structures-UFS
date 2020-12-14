@@ -5,6 +5,8 @@
 typedef struct Table{
     int32_t key;
     int32_t quantity;
+    struct Table * lastCellTable;
+
     struct Table * prox;
 }Table;
 
@@ -20,6 +22,7 @@ Table * createTable() {
     table = (Table *) malloc(sizeof(Table));
         table->key = 0;
         table->quantity = 0;
+        table->lastCellTable = NULL;
         table->prox = NULL;
 
     return table;
@@ -39,6 +42,21 @@ void addTable(int32_t key, Table *tb) {
     tb->prox = nova;
 }
 
+// addTable() Variation
+// Always pass at 2 param the last list of table cell.
+Table * putAndGetNewTable(int32_t key, Table *tbLast) {
+    Table *nova;
+    nova = (Table *) malloc(sizeof(Table));
+
+    nova->key = key;
+    nova->prox = tbLast->prox;
+    tbLast->prox = nova;
+
+    return nova;
+}
+
+// ----------------------------------
+
 int32_t generateHash(int32_t value, int32_t M) {
     int32_t hx = (value % M);
     
@@ -47,13 +65,13 @@ int32_t generateHash(int32_t value, int32_t M) {
 
 void addToHashTable(int32_t hash_code, int32_t key, Table ** hash_table, int32_t M) {
     if(!hash_table[hash_code]){
-        Table * newTable = createTable();
+        Table * table = createTable();
 
-        hash_table[hash_code] = newTable;
+        hash_table[hash_code] = table;
 
-        addTable(key, newTable);
+        putAndGetNewTable(key, table);
 
-        newTable->quantity+=1;
+        table->quantity+=1;
 
     }else{
         Table * roundTable = hash_table[hash_code];
@@ -64,6 +82,37 @@ void addToHashTable(int32_t hash_code, int32_t key, Table ** hash_table, int32_t
 
     }
 }
+
+//addToHashTableV2() Variation
+void addToHashTableV2(int32_t key, Table ** hash_table, int32_t M) {
+    Table * lastCell;
+    int32_t hash_code = (key % M);
+    
+    if(!hash_table[hash_code]){
+        Table * table = createTable();  
+
+        hash_table[hash_code] = table;
+        
+        lastCell = putAndGetNewTable(key, table);
+
+        table->quantity+=1;
+        table->lastCellTable = lastCell;
+
+    }else{
+        
+        Table * table = hash_table[hash_code];
+
+        lastCell = table->lastCellTable;
+
+        lastCell = putAndGetNewTable(key, lastCell);
+
+        table->quantity+=1;
+        table->lastCellTable = lastCell;
+
+
+    }
+}
+//----------------------------------
 
 void hashFunction() {
 
@@ -82,8 +131,9 @@ void hashFunction() {
     Table ** hash_table;
     hash_table = createHashTable(M);
 
-    //key extractor
+    //loop variables
 
+    Table * lastCellTable = NULL;
     int32_t key = 0;
     int32_t hash_code = 0;
     char stop = 's';
@@ -92,11 +142,9 @@ void hashFunction() {
         scanf("%d", &key);
         stop = getchar();
 
-        hash_code = generateHash(key, M);
-
-        addToHashTable(hash_code, key, hash_table, M);
+        addToHashTableV2(key, hash_table, M);
     } 
-    
+
     //data helper
     Table * data_helper;
 
@@ -105,7 +153,7 @@ void hashFunction() {
     {
         data_helper = hash_table[i];   
 
-        if(!hash_table[i]) {
+         if(!hash_table[i]) {
                                                 
             printf("%d -> \\", i);
             printf("\n");
