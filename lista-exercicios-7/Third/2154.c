@@ -138,8 +138,13 @@ void searchHashTable(Table ** hashTable, int32_t key, int32_t sizeHashTable) {
     int32_t hash = (key % sizeHashTable);
 
     Table * pc = hashTable[hash];
+
+    int32_t numberOfKeys = getHashTableQuantity(hashTable, sizeHashTable);
+
  
     if(!pc) {
+        printf("BUSCA POR %d\n", key);
+        printf("numero de elementos da tabela hash: %d\n", numberOfKeys);
         printf("elemento nao encontrado!\n");
         printf("numero de elementos acessados na tabela hash: 0\n");
         return;
@@ -154,14 +159,25 @@ void searchHashTable(Table ** hashTable, int32_t key, int32_t sizeHashTable) {
         if(pc->key == key) break;
         pc = pc->prox;
     }
-       
 
-        int32_t numberOfKeys = getHashTableQuantity(hashTable, sizeHashTable);
+    if(!pc) {
 
+        printf("BUSCA POR %d\n", key);
+        printf("numero de elementos da tabela hash: %d\n", numberOfKeys);
+        printf("elemento nao encontrado!\n");
+        printf("numero de elementos acessados na tabela hash: %d\n", counter);
+
+        return;
+
+    } else {
+        
         printf("BUSCA POR %d\n", key);
         printf("numero de elementos da tabela hash: %d\n", numberOfKeys);
         printf("elemento %d encontrado!\n", pc->key);
         printf("numero de elementos acessados na tabela hash: %d\n", counter);
+
+        return;
+    }
     
 }
 
