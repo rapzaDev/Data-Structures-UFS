@@ -1,105 +1,170 @@
 #include<stdio.h>
 #include<stdint.h>
 #include<stdlib.h>
-
-
 typedef struct Arvore {
     int key;
     int value;
+    struct Arvore * dad;
     struct Arvore * left;
     struct Arvore * right;
 }Arvore;
 
-typedef Arvore ** ARVORE;
+// char * initControl() {
+//     char * c = (char *) malloc(sizeof(char));
+//     c[0] = 'c';
 
-char * initControl() {
-    char * c = (char *) malloc(sizeof(char));
-    c = 'c';
+//     return c;
+// }
 
-    return c;
-}
-
-Arvore ** createTree() {
-    Arvore ** root = (Arvore **)malloc(sizeof(Arvore));
+Arvore * createTree() {
+    Arvore * root = (Arvore *)malloc(sizeof(Arvore));
     
-    root[0]->key = 0;
-    root[0]->value = 0;
-    root[0]->left = NULL;
-    root[0]->right = NULL;
-
     return root;
 }
 
-Arvore * criaNoh(char * control) {
+Arvore * criaNoh(char control) {
+    char * c = (char*)malloc(sizeof(char));
+    c[0] = control;
+
     Arvore * noh = (Arvore*)malloc(sizeof(Arvore));
-    noh->key = atoi(control);
+    noh->key = atoi(c);
     noh->left = NULL;
     noh->right = NULL;
 
     return noh;
 }
 
-Arvore * justAdd(Arvore ** root, Arvore * noh) {
-    if(root == NULL) return noh;
-    if(root[0]->key > noh->key) root[0]->left = justAdd(root[0]->left, noh);
-    else root[0]->left = justAdd(root[0]->left, noh);
+Arvore * lefty(Arvore * root, Arvore * noh) {
+    if(!root) {return noh;}
+    else {
+        root->left = lefty(root->left, noh);
+        
+        Arvore * leftNoh = root->left;
+        leftNoh->dad = root;
+    }
+
+    return root;
+}
+
+Arvore * righty(Arvore * root, Arvore * noh) {
+    if(root == NULL) {return noh;}
+    else {
+        root->right = righty(root->right, noh);
+        
+        Arvore * rightNoh = root->right;
+        rightNoh->dad = root;
+    }
     
     return root;
 }
 
-void insertTree(char * control, int * cl, int * cr, Arvore ** root) {
-    
-    char ctrl = control[0];
-    
-    switch (ctrl)
+int searchy(Arvore * root, int check) {
+    if(!root) {
+        check = 1;
+        return check;
+    }
+    if(root->left) {
+        
+        if(root->left > root) {
+            printf("FALSO\n");
+            exit(0);
+        }
+        else { return searchy(root->left, check); }
+
+    }
+
+    if(root->right) {
+        
+        if(root < root->dad) {
+            printf("FALSO\n");
+            exit(0);
+        }
+        else { return searchy(root->right, check); }
+
+    }
+
+    return check;
+}
+
+Arvore * populateTree(Arvore * root) {
+    int leftCode = -1;
+    int cl = 0;
+
+    int rightCode = -1;
+    int cr = 0;
+
+    // char * control = initControl();
+    char ctrl = 'c';
+    while(1){
+        
+        // scanf("%s", control);
+        scanf("%c", &ctrl);
+
+        if(ctrl == '\n') break;
+        if(ctrl == ' ') scanf("%c", &ctrl);     
+
+        Arvore * noh;
+        switch (ctrl)
         {
+
         case '(':
             ++cl;
+            leftCode = 1;
             break;
         
         case ')':
             ++cr;
+            rightCode = 1;
             break;
 
         default:
 
-            Arvore * noh = criaNoh(ctrl);
-            if(!noh) return NULL;
-            else justAdd(root, noh);
+            noh = criaNoh(ctrl);
+
+            if(!noh->key) return NULL;
+
+            if(leftCode == 1){
+                root = lefty(root, noh);
+                leftCode = -1;
+            }
+
+            if(rightCode == 1){
+                root = righty(root, noh);
+                rightCode = -1;
+            }
 
             break;
         }
-}
-
-Arvore * fillTree(Arvore ** root) {
-    char pLeft = '(';
-    int * cl = (int*)malloc(sizeof(int));
-    cl[0] = 0;
-
-    char pRight = ')';
-    int * cr = (int*)malloc(sizeof(int));;
-    cr[0] = 0;
-
-    char * control = initControl();
-    while(1){
-
-        scanf("%s", control);
-        control = getchar();
-        if(control[0] = '\n') break;
-        
-        insertTree(control, cl, cr, root);
 
     }
+
+    if(cl != cr) root = NULL;
+
+    return root;
 }
 
-void soma(int * a, int * b){
-    a[0] = a[0] + b[0];
+
+void rootTreeAnalysis(Arvore * root) {
+    int value = searchy(root, 1);
+
+    if(value) printf("VERDADEIRO\n");
+    
 }
+
 
 int main(int argc, char const *argv[])
 {
-    ARVORE * root;
+    Arvore * root;
     root = createTree();
+
+    root = populateTree(root);
+
+    if(!root) {
+        printf("FALSO\n");
+        return 0;
+    }
+
+    rootTreeAnalysis(root);
 
 
     return 0;
